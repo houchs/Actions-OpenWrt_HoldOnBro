@@ -10,8 +10,8 @@ on:
       - master
     paths:
       - 'x86_64/x86_64.config'
-  schedule:
-    - cron: 0 17 * * *
+  #schedule:
+    #- cron: 0 17 * * *
   # watch:
   #   types: started
 
@@ -24,8 +24,8 @@ env:
   DIY_P2_SH: diy-part2.sh
   MRG_ADD_SH: x86_64/x86_64.sh
 #   SSH_ACTIONS: false
-  UPLOAD_BIN_DIR: false
-  UPLOAD_FIRMWARE: false
+  UPLOAD_BIN_DIR: true
+  UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
   FILE_NAME: x86_64
   PRODUCT_NAME: x86_64
@@ -60,7 +60,6 @@ jobs:
         sudo chown $USER:$GROUPS /workdir
         echo "status=success" >> ${GITHUB_OUTPUT}
         df -Th
-
     - name: Check server performance
       run: |
         echo "警告⚠"
@@ -78,7 +77,6 @@ jobs:
         echo -e  "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l) \n"
         echo "硬盘详情："
         df -Th
-
     - name: Clone source code
       working-directory: /workdir
       run: |
@@ -92,7 +90,7 @@ jobs:
         echo "DATE1=$(date "+%Y-%m-%d")" >> $GITHUB_ENV
 #        echo "::set-env name=useVersionInfo::$useVersionInfo"
 #        echo "::set-env name=DATE::$(date "+%Y-%m-%d %H:%M:%S")"
-
+      
     #- name: Load custom feeds
     #  run: |
     #    [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -117,9 +115,15 @@ jobs:
         $GITHUB_WORKSPACE/$MRG_ADD_SH
         sed -i 's/OpenWrt/MRG AutoBuild ${{ env.DATE1 }} @ OpenWrt/g' package/lean/default-settings/files/zzz-default-settings
         
-#     - name: SSH connection to Actions
-#       uses: P3TERX/debugger-action@master
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
 #       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+
+    - name: UpConfig
+      uses: actions/upload-artifact@v3
+      with:
+        name: config
+        path: /workdir/openwrt/upconfig/
 
     - name: Download package
       id: package
@@ -132,7 +136,6 @@ jobs:
         rm -rf $GITHUB_WORKSPACE/.git
         rm -rf $GITHUB_WORKSPACE/opt
         df -Th
-
 #   - name: patch
 #     run: cp -rf $GITHUB_WORKSPACE/x86_64/5_15_patches/* openwrt/
 
@@ -166,7 +169,6 @@ jobs:
         echo -e  "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l) \n"
         echo "硬盘详情："
         df -Th
-
     - name: Upload bin directory
       uses: actions/upload-artifact@master
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
