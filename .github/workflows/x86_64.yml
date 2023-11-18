@@ -115,15 +115,15 @@ jobs:
         $GITHUB_WORKSPACE/$MRG_ADD_SH
         sed -i 's/OpenWrt/MRG AutoBuild ${{ env.DATE1 }} @ OpenWrt/g' package/lean/default-settings/files/zzz-default-settings
         
-    - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@v1.0.0
+    #- name: SSH connection to Actions
+      #uses: P3TERX/ssh2actions@v1.0.0
 #       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
 
-    - name: UpConfig
-      uses: actions/upload-artifact@v3
-      with:
-        name: config
-        path: /workdir/openwrt/upconfig/
+    #- name: UpConfig
+      #uses: actions/upload-artifact@v3
+      #with:
+        #name: config
+        #path: /workdir/openwrt/upconfig/
 
     - name: Download package
       id: package
