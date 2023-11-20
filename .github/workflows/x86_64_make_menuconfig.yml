@@ -1,4 +1,4 @@
-name: x86_64
+name: x86_64_make_menuconfig
 
 on:
   workflow_dispatch:
