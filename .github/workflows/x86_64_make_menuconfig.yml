@@ -2,14 +2,14 @@ name: x86_64_make_menuconfig
 
 on:
   workflow_dispatch:
-  repository_dispatch:
+  #repository_dispatch:
 #  release:
 #    types: published
-  push:
-    branches:
-      - master
-    paths:
-      - 'x86_64/x86_64.config'
+  #push:
+    #branches:
+      #- master
+    #paths:
+      #- 'x86_64/x86_64.config'
   #schedule:
     #- cron: 0 17 * * *
   # watch:
