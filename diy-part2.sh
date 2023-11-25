@@ -17,6 +17,8 @@ rm -rf feeds/packages/net/smartdns
 rm -rf feeds/packages/net/mosdns
 
 #添加额外软件包
+git clone https://github.com/xiaozhuai/luci-app-filebrowser package/luci-app-filebrowser
+
 git clone --depth=1 https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
 
 git clone --depth=1 https://github.com/gdy666/luci-app-lucky.git lucky-repo
