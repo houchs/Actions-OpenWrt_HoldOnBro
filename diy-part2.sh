@@ -19,6 +19,8 @@ rm -rf feeds/packages/net/mosdns
 #添加额外软件包
 # 文件浏览器
 git clone https://github.com/xiaozhuai/luci-app-filebrowser package/luci-app-filebrowser
+# 关机
+git clone https://github.com/esirplayground/luci-app-poweroff.git package/lean/luci-app-poweroff
 
 git clone --depth=1 https://github.com/destan19/OpenAppFilter.git package/OpenAppFilter
 
